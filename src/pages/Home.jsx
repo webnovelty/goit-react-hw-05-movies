@@ -3,10 +3,11 @@ import { toast } from 'react-toastify';
 import { fetchMovies } from '../services/api';
 import { NavLink } from 'react-router-dom';
 import { FcFilmReel } from 'react-icons/fc';
+import Loader from 'components/Loader';
 
 export const Home = () => {
   const [items, setItems] = useState(null);
-  const [isLoad, setIsLoad] = useState('false');
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -35,11 +36,13 @@ export const Home = () => {
   return (
     <main>
       <h1>Trending today</h1>
+      <Loader isLoad={isLoad} />
       {items && (
         <ul>
           {items.map(({ id, title }) => (
             <li key={id}>
-             <FcFilmReel size={24} /> <NavLink to={`movies/${id}`}>{title}</NavLink>
+              <FcFilmReel size={24} />{' '}
+              <NavLink to={`movies/${id}`}>{title}</NavLink>
             </li>
           ))}
         </ul>

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { fetchReviews } from '../services/api';
 import { GalleryCast, Card, Name, Character, Bad } from './Reviews.styled';
 import { FaSadTear, FaUserNinja } from 'react-icons/fa';
+import Loader from 'components/Loader';
 
 export const Reviews = () => {
 	 
@@ -37,18 +38,25 @@ export const Reviews = () => {
 	
 	
 	return (
-   <div>
+    <div>
+      <Loader isLoad={isLoad} />
       {items && (
         <GalleryCast>
           {items.map(({ id, author, content }) => (
             <Card key={id}>
-				  <Name><FaUserNinja size={50} /> {author}</Name>
+              <Name>
+                <FaUserNinja size={50} /> {author}
+              </Name>
               <Character>{content}</Character>
             </Card>
           ))}
         </GalleryCast>
       )}
-      {items?.length === 0 && (<Bad>Sorry, no reviews today <FaSadTear size={50} /></Bad>)}
+      {items?.length === 0 && (
+        <Bad>
+          Sorry, no reviews today <FaSadTear size={50} />
+        </Bad>
+      )}
     </div>
   );
 };

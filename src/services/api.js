@@ -40,6 +40,15 @@ async function fetchReviews(movieId) {
 	return data;
 }
 
+async function fetchSearch(query) {
+	const response = await axios.get(
+		`${URL}3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=1&include_adult=false`
+	);
+	const data = await response.data;
+
+	return data;
+}
 
 
-export { fetchMovies, fetchMovieByID, fetchCast, fetchReviews };
+
+export { fetchMovies, fetchMovieByID, fetchCast, fetchReviews, fetchSearch };

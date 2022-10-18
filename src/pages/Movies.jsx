@@ -1,10 +1,95 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, NavLink, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { AiFillCaretLeft } from 'react-icons/ai';
+import { Formik } from 'formik';
+import { toast } from 'react-toastify';
+import { SearchForm, Input, Button, Span, Header } from './Movies.styled';
+import { fetchSearch } from '../services/api';
+import { FcFilmReel } from 'react-icons/fc';
+import Loader from 'components/Loader';
 
 export const Movies = () => {
+
+const [items, setItems] = useState(null);
+	const [isLoad, setIsLoad] = useState(false);
+	const [query, setQuery] = useState('');
+	const { movieId } = useParams();
+
+  const handleSubmit = async (values, actions) => {
+    if (values.name.trim() === '') {
+      toast.error('Введите текст запроса!', { position: 'top-right' });
+      return;
+	  };
+	  actions.setSubmitting(false);
+	  setQuery(values.name);
+	  console.log(query);
+	};
+	
+
+useEffect(() => {
+  const options = {
+    position: 'top-right',
+    autoClose: 3000,
+	};
+	
+	if (!query)
+	{
+		return;
+		}
+  async function fetchData() {
+    setIsLoad(true);
+    try {
+      const movies = await fetchSearch(query);
+      setItems(movies.results);
+    } catch {
+      toast.error('Oops, something went wrong. Repeat one more time!', options);
+    } finally {
+      setIsLoad(false);
+    }
+  }
+  fetchData();
+}, [query]);
+
+  
   return (
-	  <main>
-		  <Link to='/'><AiFillCaretLeft /> Go back</Link>
+    <main>
+      <Link to="/">
+        <AiFillCaretLeft /> Go back
+      </Link>
+      {!movieId && (
+        <>
+          <Header>
+            <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
+              {({ isSubmitting }) => (
+                <SearchForm>
+                  <Button type="submit" disabled={isSubmitting}>
+                    <Span data-comp="spanItem">Search</Span>
+                  </Button>
+
+                  <Input
+                    name="name"
+                    type="text"
+                    autoComplete="off"
+                    autoFocus
+                    placeholder="Search images and photos"
+                  />
+                </SearchForm>
+              )}
+            </Formik>
+          </Header>
+            <Loader isLoad={isLoad} />
+          {items && (
+            <ul>
+              {items.map(({ id, title }) => (
+                <li key={id}>
+                  <FcFilmReel size={24} />{' '}
+                  <NavLink to={`${id}`}>{title}</NavLink>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
 
       <Outlet />
     </main>

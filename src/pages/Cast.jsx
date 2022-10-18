@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { fetchCast } from '../services/api';
 import { GalleryCast, Img, Card, Name, Character } from './Cast.styled';
+import Loader from 'components/Loader';
 
 export const Cast = () => {
   const { movieId } = useParams();
@@ -45,6 +46,7 @@ if (!items) {
 }
 	return (
     <GalleryCast>
+      <Loader isLoad={isLoad} />
       {items.map(({ id, name, profile_path, character }) => (
         <Card key={id}>
           {!profile_path && <Img src={defaultImg} alt={name} />}

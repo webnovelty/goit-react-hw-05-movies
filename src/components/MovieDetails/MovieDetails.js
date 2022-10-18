@@ -16,6 +16,8 @@ import {
 	AdditionalTitle
 } from './MovieDetails.styled';
 
+import Loader from 'components/Loader';
+
 const MovieDetails = () => {
 	const { movieId } = useParams();
 	const [items, setItems] = useState(null);
@@ -57,6 +59,7 @@ const MovieDetails = () => {
 
 	return (
 		<>
+			<Loader isLoad={isLoad} />
 			{items && (
 				<div>
 				<Film>
