@@ -8,7 +8,7 @@ import Loader from 'components/Loader';
 export const Cast = () => {
   const { movieId } = useParams();
   const [items, setItems] = useState(null);
-  const [isLoad, setIsLoad] = useState('false');
+  const [isLoad, setIsLoad] = useState(false);
 	const posterUrl = `https://www.themoviedb.org/t/p/w138_and_h175_face`;
 
 

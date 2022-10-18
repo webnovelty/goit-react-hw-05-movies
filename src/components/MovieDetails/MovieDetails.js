@@ -21,8 +21,8 @@ import Loader from 'components/Loader';
 const MovieDetails = () => {
 	const { movieId } = useParams();
 	const [items, setItems] = useState(null);
-	const [isLoad, setIsLoad] = useState('false');
-	const [isOutlet, setIsOutlet] = useState('false');
+	const [isLoad, setIsLoad] = useState(false);
+	const [isOutlet, setIsOutlet] = useState(false);
 	const posterUrl = `https://image.tmdb.org/t/p/w500`;
 
 	const onClick = () => {

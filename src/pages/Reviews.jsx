@@ -10,7 +10,7 @@ export const Reviews = () => {
 	 
   const { movieId } = useParams();
   const [items, setItems] = useState(null);
-  const [isLoad, setIsLoad] = useState('false');
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
     const options = {
