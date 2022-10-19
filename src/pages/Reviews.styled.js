@@ -35,4 +35,5 @@ padding: 5px;
 export const Bad = styled.div`
 text-align: center;
 color: red;
+margin-bottom: 50px;
 `;

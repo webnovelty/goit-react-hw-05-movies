@@ -1,4 +1,4 @@
-import { Link, Outlet, NavLink, useParams } from 'react-router-dom';
+import { Link, Outlet, NavLink, useParams, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AiFillCaretLeft } from 'react-icons/ai';
 import { Formik } from 'formik';
@@ -14,6 +14,7 @@ const [items, setItems] = useState(null);
 	const [isLoad, setIsLoad] = useState(false);
 	const [query, setQuery] = useState('');
 	const { movieId } = useParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (values, actions) => {
     if (values.name.trim() === '') {
@@ -22,7 +23,9 @@ const [items, setItems] = useState(null);
 	  };
 	  actions.setSubmitting(false);
 	  setQuery(values.name);
-	  console.log(query);
+	  
+	  setSearchParams({ query: values.name });
+	  console.log(searchParams);
 	};
 	
 
@@ -32,7 +35,7 @@ useEffect(() => {
     autoClose: 3000,
 	};
 	
-	if (!query)
+	if (!query) 
 	{
 		return;
 		}
@@ -50,12 +53,14 @@ useEffect(() => {
   fetchData();
 }, [query]);
 
+	
   
-  return (
+	return (
     <main>
       <Link to="/">
         <AiFillCaretLeft /> Go back
       </Link>
+
       {!movieId && (
         <>
           <Header>
@@ -71,13 +76,13 @@ useEffect(() => {
                     type="text"
                     autoComplete="off"
                     autoFocus
-                    placeholder="Search images and photos"
+										placeholder="Search movie"
                   />
                 </SearchForm>
               )}
             </Formik>
           </Header>
-            <Loader isLoad={isLoad} />
+          <Loader isLoad={isLoad} />
           {items && (
             <ul>
               {items.map(({ id, title }) => (

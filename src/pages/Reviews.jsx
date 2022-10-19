@@ -6,7 +6,7 @@ import { GalleryCast, Card, Name, Character, Bad } from './Reviews.styled';
 import { FaSadTear, FaUserNinja } from 'react-icons/fa';
 import Loader from 'components/Loader';
 
-export const Reviews = () => {
+const Reviews = () => {
 	 
   const { movieId } = useParams();
   const [items, setItems] = useState(null);
@@ -60,3 +60,5 @@ export const Reviews = () => {
     </div>
   );
 };
+
+export default Reviews;

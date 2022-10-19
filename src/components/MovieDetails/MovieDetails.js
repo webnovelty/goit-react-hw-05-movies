@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useParams, Link, Outlet } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { fetchMovieByID } from '../../services/api';
@@ -22,12 +22,7 @@ const MovieDetails = () => {
 	const { movieId } = useParams();
 	const [items, setItems] = useState(null);
 	const [isLoad, setIsLoad] = useState(false);
-	const [isOutlet, setIsOutlet] = useState(false);
 	const posterUrl = `https://image.tmdb.org/t/p/w500`;
-
-	const onClick = () => {
-		setIsOutlet(true);
-	}
 
 	useEffect(() => {
 		const options = {
@@ -90,13 +85,15 @@ const MovieDetails = () => {
 					<AdditionalTitle>Additional Information</AdditionalTitle>
 					<Additional>
 						<FilmInfoItem>
-							<Link to="cast" onClick={onClick}>Cast</Link>
+							<Link to="cast">Cast</Link>
 						</FilmInfoItem>
 						<FilmInfoItem>
-							<Link to="reviews" onClick={onClick}>Reviews</Link>
+							<Link to="reviews">Reviews</Link>
 						</FilmInfoItem>
 					</Additional>
-					{isOutlet && (<Outlet />)}
+					<Suspense>
+						<Outlet />
+					</Suspense>
 				</div>
 			)}
 		</>

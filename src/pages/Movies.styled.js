@@ -33,8 +33,4 @@ padding: 12px 48px;
 
 export const Header = styled.header`
 padding: 40px 0 40px 0;
-box-shadow: 0 1px 4px rgba(0, 0, 0, 1),
--23px 0 20px -23px rgba(0, 0, 0, .8),
-23px 0 20px -23px rgba(0, 0, 0, .8),
-0 0 40px rgba(0, 0, 0, .1) inset;
 `;

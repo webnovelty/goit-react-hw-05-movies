@@ -5,7 +5,7 @@ import { fetchCast } from '../services/api';
 import { GalleryCast, Img, Card, Name, Character } from './Cast.styled';
 import Loader from 'components/Loader';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [items, setItems] = useState(null);
   const [isLoad, setIsLoad] = useState(false);
@@ -58,3 +58,5 @@ if (!items) {
     </GalleryCast>
   );
 };
+
+export default Cast;
