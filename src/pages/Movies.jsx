@@ -2,7 +2,8 @@ import { Outlet, NavLink, useParams, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { SearchForm, Input, Button, Span, Header } from './Movies.styled';
 import { fetchSearch } from '../services/api';
 import { FcFilmReel } from 'react-icons/fc';
@@ -16,14 +17,14 @@ const [items, setItems] = useState(null);
 	const { movieId } = useParams();
 	const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSubmit = async (values, actions) => {
+	const handleSubmit = async (values, actions) => {
+	  
     if (values.name.trim() === '') {
-      toast.error('Введите текст запроса!', { position: 'top-right' });
-      return;
+		toast.error('Введите текст запроса!', { position: 'top-right' });
+		return;
 	  };
 	  actions.setSubmitting(false);
 	  setQuery(values.name);
-	  
 	  setSearchParams({ query: values.name });
 	  console.log(searchParams);
 	};
@@ -57,11 +58,10 @@ useEffect(() => {
   
 	return (
     <main>
-      
-
       {!movieId && (
         <>
           <Header>
+            <ToastContainer />
             <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
               {({ isSubmitting }) => (
                 <SearchForm>
@@ -74,7 +74,7 @@ useEffect(() => {
                     type="text"
                     autoComplete="off"
                     autoFocus
-										placeholder="Search movie"
+                    placeholder="Search movie"
                   />
                 </SearchForm>
               )}
