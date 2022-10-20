@@ -19,8 +19,7 @@ import { fetchMovieByID } from '../services/api';
 import Loader from 'components/Loader';
 
 const MovieDetails = () => {
-	const location = useLocation();
-	const cameBack = location.state?.from ?? '/';
+	
 	const { movieId } = useParams();
 	const [items, setItems] = useState(null);
 	const [isLoad, setIsLoad] = useState(false);
@@ -49,10 +48,15 @@ const MovieDetails = () => {
 		}
 		fetchData();
 	}, [movieId]);
+
+	const location = useLocation();
+	const cameBack = location.state?.from ?? '/';
+
 	if (!items) {
 		return;
 	}
 	const { title, vote_average, poster_path, tagline, release_date, overview, genres } = items;
+	
 
 	return (
 		<>
