@@ -1,24 +1,26 @@
 
 import { Suspense, useEffect, useState } from 'react';
-import { useParams, Link, Outlet } from "react-router-dom";
+import { AiFillCaretLeft } from 'react-icons/ai';
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { fetchMovieByID } from '../../services/api';
 import {
-	Film,
+	Additional,
+	AdditionalTitle, Film,
 	FilmContent, FilmDescription,
 	FilmDescriptionText, FilmDescriptionTitle, FilmInfo,
 	FilmInfoItem,
 	FilmInfoLabel,
 	FilmInfoText,
 	FilmTitle,
-	Img,
-	Additional,
-	AdditionalTitle
+	Img
 } from './MovieDetails.styled';
+import { fetchMovieByID } from '../services/api';
 
 import Loader from 'components/Loader';
 
 const MovieDetails = () => {
+	const location = useLocation();
+	const cameBack = location.state?.from ?? '/';
 	const { movieId } = useParams();
 	const [items, setItems] = useState(null);
 	const [isLoad, setIsLoad] = useState(false);
@@ -54,41 +56,44 @@ const MovieDetails = () => {
 
 	return (
 		<>
+			<Link to={cameBack}>
+				<AiFillCaretLeft /> Go back
+			</Link>
 			<Loader isLoad={isLoad} />
 			{items && (
 				<div>
-				<Film>
-					<Img src={posterUrl + poster_path} alt={tagline
-					} />
+					<Film>
+						<Img src={posterUrl + poster_path} alt={tagline
+						} />
 
-					<FilmContent>
-						<FilmTitle>{title} ({release_date.slice(0, 4)})</FilmTitle>
-						<FilmInfo>
-							<FilmInfoItem>
-								<FilmInfoLabel>User score:</FilmInfoLabel>
-								<FilmInfoText>{Math.round(vote_average*10)}%</FilmInfoText>
-							</FilmInfoItem>
-							<FilmInfoItem>
-								<FilmInfoLabel>Genres</FilmInfoLabel>
-								<FilmInfoText>
-									{genres.map(({ id, name }) => (<span key={id}>{name}, </span>))}
-								</FilmInfoText>
-							</FilmInfoItem>
-						</FilmInfo>
-						<FilmDescription>
-							<FilmDescriptionTitle>Overview</FilmDescriptionTitle>
-							<FilmDescriptionText>{overview}</FilmDescriptionText>
-						</FilmDescription>
-					</FilmContent>
-				
+						<FilmContent>
+							<FilmTitle>{title} ({release_date.slice(0, 4)})</FilmTitle>
+							<FilmInfo>
+								<FilmInfoItem>
+									<FilmInfoLabel>User score:</FilmInfoLabel>
+									<FilmInfoText>{Math.round(vote_average * 10)}%</FilmInfoText>
+								</FilmInfoItem>
+								<FilmInfoItem>
+									<FilmInfoLabel>Genres</FilmInfoLabel>
+									<FilmInfoText>
+										{genres.map(({ id, name }) => (<span key={id}>{name}, </span>))}
+									</FilmInfoText>
+								</FilmInfoItem>
+							</FilmInfo>
+							<FilmDescription>
+								<FilmDescriptionTitle>Overview</FilmDescriptionTitle>
+								<FilmDescriptionText>{overview}</FilmDescriptionText>
+							</FilmDescription>
+						</FilmContent>
+
 					</Film>
 					<AdditionalTitle>Additional Information</AdditionalTitle>
 					<Additional>
 						<FilmInfoItem>
-							<Link to="cast">Cast</Link>
+							<Link to="cast" state={{ from: cameBack }}>Cast</Link>
 						</FilmInfoItem>
 						<FilmInfoItem>
-							<Link to="reviews">Reviews</Link>
+							<Link to="reviews" state={{ from: cameBack }}>Reviews</Link>
 						</FilmInfoItem>
 					</Additional>
 					<Suspense>

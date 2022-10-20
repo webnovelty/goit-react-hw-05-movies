@@ -1,6 +1,6 @@
-import { Link, Outlet, NavLink, useParams, useSearchParams } from 'react-router-dom';
+import { Outlet, NavLink, useParams, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { AiFillCaretLeft } from 'react-icons/ai';
+
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
 import { SearchForm, Input, Button, Span, Header } from './Movies.styled';
@@ -57,9 +57,7 @@ useEffect(() => {
   
 	return (
     <main>
-      <Link to="/">
-        <AiFillCaretLeft /> Go back
-      </Link>
+      
 
       {!movieId && (
         <>
