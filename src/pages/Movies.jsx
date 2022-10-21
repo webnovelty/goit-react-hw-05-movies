@@ -78,7 +78,7 @@ useEffect(() => {
         <>
           <Header>
             <ToastContainer />
-            <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
+            <Formik initialValues={{ name: searchParams.get('query') ?? '' }} onSubmit={handleSubmit}>
               {({ isSubmitting }) => (
                 <SearchForm>
                   <Button type="submit" disabled={isSubmitting}>
@@ -91,6 +91,7 @@ useEffect(() => {
                     autoComplete="off"
                     autoFocus
                     placeholder="Search movie"
+                    
                   />
                 </SearchForm>
               )}
@@ -102,7 +103,9 @@ useEffect(() => {
               {items.map(({ id, title }) => (
                 <li key={id}>
                   <FcFilmReel size={24} />{' '}
-                  <Link to={`/movies/${id}`} state={{from: location}}>{title}</Link>
+                  <Link to={`/movies/${id}`} state={{ from: location }}>
+                    {title}
+                  </Link>
                 </li>
               ))}
             </ul>
