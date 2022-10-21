@@ -1,4 +1,10 @@
-import { Outlet, NavLink, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Outlet,
+  Link,
+  useParams,
+  useSearchParams,
+  useLocation,
+} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
@@ -16,6 +22,8 @@ const [items, setItems] = useState(null);
 	const [query, setQuery] = useState('');
 	const { movieId } = useParams();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const location = useLocation();
+ 
 
 	const handleSubmit = async (values, actions) => {
 	  
@@ -24,10 +32,18 @@ const [items, setItems] = useState(null);
 		return;
 	  };
 	  actions.setSubmitting(false);
-	  setQuery(values.name);
-	  setSearchParams({ query: values.name });
-	  console.log(searchParams);
+	  setQuery(values.name.toLowerCase());
+	  setSearchParams({ query: values.name.toLowerCase() });
+		
 	};
+
+useEffect(() => {
+	if (searchParams?.get("query"))
+	{
+		setQuery(searchParams.get('query'));
+	  }
+}, [searchParams]);
+
 	
 
 useEffect(() => {
@@ -51,7 +67,7 @@ useEffect(() => {
       setIsLoad(false);
     }
   }
-  fetchData();
+	fetchData();
 }, [query]);
 
 	
@@ -86,7 +102,7 @@ useEffect(() => {
               {items.map(({ id, title }) => (
                 <li key={id}>
                   <FcFilmReel size={24} />{' '}
-                  <NavLink to={`${id}`}>{title}</NavLink>
+                  <Link to={`/movies/${id}`} state={{from: location}}>{title}</Link>
                 </li>
               ))}
             </ul>
